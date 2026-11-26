@@ -29,11 +29,11 @@ juce_add_plugin(ResonanceSuppressor
     COPY_PLUGIN_AFTER_BUILD FALSE)
 
 target_sources(ResonanceSuppressor PRIVATE
-    Source/PluginProcessor.cpp
-    Source/PluginProcessor.h
-    Source/PluginEditor.cpp
-    Source/PluginEditor.h
-    Source/SuppressorEngine.h)
+    PluginProcessor.cpp
+    PluginProcessor.h
+    PluginEditor.cpp
+    PluginEditor.h
+    SuppressorEngine.h)
 
 target_compile_definitions(ResonanceSuppressor PUBLIC
     JUCE_WEB_BROWSER=0
