@@ -1,0 +1,29 @@
+name: Build VST3 (macOS)
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  mac:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release -j 4
+
+      - name: Sign (ad-hoc) and zip
+        run: |
+          VST=$(find build -name "*.vst3" -type d | head -n 1)
+          echo "Found: $VST"
+          codesign --force --deep --sign - "$VST"
+          ditto -c -k --keepParent "$VST" ResonanceSuppressor-macOS.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ResonanceSuppressor-macOS-VST3
+          path: ResonanceSuppressor-macOS.zip
